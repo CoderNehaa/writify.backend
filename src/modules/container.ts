@@ -17,4 +17,9 @@ export const authMiddleware = new AuthMiddleware(userService, tokenService);
 
 // Controllers
 export const userController = new UserController(userService);
-export const authController = new AuthController(userService, otpService, emailService, tokenService);
+export const authController = new AuthController(
+  userService,
+  otpService,
+  emailService,
+  tokenService
+);

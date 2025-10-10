@@ -8,8 +8,8 @@
     "dev": "ts-node-dev --respawn --transpile-only src",
     "build": "tsc",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "generate-module": "node generate-module-structure.js",
-    "generate-module-files": "node generate-module-files.js"
+    "generate-module": "node tools/module-generator",
+    "generate-module-files": "node tools/generate-module-files.js"
   },
   "keywords": [],
   "author": "",

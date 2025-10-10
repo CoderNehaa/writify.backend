@@ -1,5 +1,6 @@
 import { Request, Response, NextFunction } from "express";
 import Joi from "joi";
+import { Types } from "mongoose";
 
 type ValidatorSchema = {
   body?: Joi.ObjectSchema;
@@ -34,7 +35,23 @@ const validateSection = (
   return null;
 };
 
+const validateMongoObjectId = (value: string, helpers: any) => {
+  if (!Types.ObjectId.isValid(value)) {
+    return helpers.message("Invalid MongoDB ObjectId format.");
+  }
+  return value;
+};
+
 export abstract class BaseValidator {
+  static paramsIdValidator = {
+    params: Joi.object({
+      id: Joi.string()
+        .custom(validateMongoObjectId, "ObjectId Validation")
+        .required()
+        .label("ID"),
+    }),
+  };
+
   static validateEndpoint(schema: ValidatorSchema = {}) {
     return (req: Request, res: Response, next: NextFunction) => {
       // Validate each section
