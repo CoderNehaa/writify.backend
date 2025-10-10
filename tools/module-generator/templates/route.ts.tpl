@@ -10,7 +10,7 @@ const { validateEndpoint, paramsIdValidator } = BaseValidator;
 
 {{module}}Router.get(
   "/all",
-  validateEndpoint(paramsIdValidator),
+  validateEndpoint(),
   {{module}}Controller.getAll
 );
 {{module}}Router.get(
@@ -20,7 +20,7 @@ const { validateEndpoint, paramsIdValidator } = BaseValidator;
 );
 {{module}}Router.put(
   "/:id",
-  validateEndpoint(paramsIdValidator),
+  validateEndpoint(), //Implement validator with params and body
   {{module}}Controller.updateById
 );
 {{module}}Router.delete(
