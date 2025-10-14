@@ -1,62 +1,62 @@
-// {{module}}.controller.ts for {{module}} module
+// article.controller.ts for article module
 import { Request, Response } from "express";
 import { BaseController } from "../base/base.controller";
-import { {{Module}}Service } from "./{{module}}.service";
+import { ArticleService } from "./article.service";
 
-export class {{Module}}Controller extends BaseController {
-  private {{module}}Service: {{Module}}Service;
+export class ArticleController extends BaseController {
+  private articleService: ArticleService;
 
-  constructor(service: {{Module}}Service) {
+  constructor(service: ArticleService) {
     super();
-    this.{{module}}Service = service;
+    this.articleService = service;
   }
 
   getAll = async (req: Request, res: Response) => {
     try {
-      const data = await this.{{module}}Service.getAll();
+      const data = await this.articleService.getAll();
       return this.sendSuccessResponse(res, data);
     } catch (e) {
-      return this.handleError(res, e, "getAll", "{{Module}}Controller");
+      return this.handleError(res, e, "getAll", "ArticleController");
     }
   };
 
   getById = async (req: Request, res: Response) => {
     try {
       const { id } = req.params;
-      const data = await this.{{module}}Service.getById(id);
+      const data = await this.articleService.getById(id);
       if (!data) {
         return this.sendNotFoundResponse(res);
       }
       return this.sendSuccessResponse(res, data);
     } catch (e) {
-      return this.handleError(res, e, "getById", "{{Module}}Controller");
+      return this.handleError(res, e, "getById", "ArticleController");
     }
   };
 
   updateById = async (req: Request, res: Response) => {
     try {
       const { id } = req.params;
-      const data = await this.{{module}}Service.updateById(String(id), req.body);
+      const data = await this.articleService.updateById(String(id), req.body);
       if (!data) {
         return this.sendNotFoundResponse(
           res,
-          "{{module}} not found or failed to update!"
+          "article not found or failed to update!"
         );
       }
       return this.sendSuccessResponse(res, data, "Update operation completed successfully!");
     } catch (e) {
-      return this.handleError(res, e, "updateById", "{{Module}}Controller");
+      return this.handleError(res, e, "updateById", "ArticleController");
     }
   };
 
   deleteById = async (req: Request, res: Response) => {
     try {
       const { id } = req.params;
-      const data = await this.{{module}}Service.deleteById(id);
+      const data = await this.articleService.deleteById(id);
 
       return this.sendSuccessResponse(res, data, "Delete operation completed successfully!");
     } catch (e) {
-      return this.handleError(res, e, "deleteById", "{{Module}}Controller");
+      return this.handleError(res, e, "deleteById", "ArticleController");
     }
   };
 }
