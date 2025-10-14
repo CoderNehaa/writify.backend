@@ -9,6 +9,7 @@ export interface IUser extends Document {
   _id: String | ObjectId;
   email: string;
   username: string;
+  fullName?: string;
   role: EUserRoles;
   isVerified: boolean;
   password?: string; //to prevent sending password in user object

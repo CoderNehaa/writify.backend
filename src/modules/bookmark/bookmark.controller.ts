@@ -1,58 +1,55 @@
-// category.controller.ts for category module
+// bookmark.controller.ts for bookmark module
 import { Request, Response } from "express";
 import { BaseController } from "../base/base.controller";
-import { CategoryService } from "./category.service";
+import { BookmarkService } from "./bookmark.service";
 
-export class CategoryController extends BaseController {
-  private categoryService: CategoryService;
+export class BookmarkController extends BaseController {
+  private bookmarkService: BookmarkService;
 
-  constructor(service: CategoryService) {
+  constructor(service: BookmarkService) {
     super();
-    this.categoryService = service;
+    this.bookmarkService = service;
   }
 
   create = async (req: Request, res: Response) => {
     try {
-      const data = await this.categoryService.updateAndUpsert(
-        { categoryName: req.body.categoryName },
-        req.body
-      );
+      const data = await this.bookmarkService.create(req.body);
       return this.sendSuccessResponse(res, data);
     } catch (e) {
-      return this.handleError(res, e, "create", "CategoryController");
+      return this.handleError(res, e, "create", "BookmarkController");
     }
   };
 
   getAll = async (req: Request, res: Response) => {
     try {
-      const data = await this.categoryService.getAll();
+      const data = await this.bookmarkService.getAll();
       return this.sendSuccessResponse(res, data);
     } catch (e) {
-      return this.handleError(res, e, "getAll", "CategoryController");
+      return this.handleError(res, e, "getAll", "BookmarkController");
     }
   };
 
   getById = async (req: Request, res: Response) => {
     try {
       const { id } = req.params;
-      const data = await this.categoryService.getById(id);
+      const data = await this.bookmarkService.getById(id);
       if (!data) {
         return this.sendNotFoundResponse(res);
       }
       return this.sendSuccessResponse(res, data);
     } catch (e) {
-      return this.handleError(res, e, "getById", "CategoryController");
+      return this.handleError(res, e, "getById", "BookmarkController");
     }
   };
 
   updateById = async (req: Request, res: Response) => {
     try {
       const { id } = req.params;
-      const data = await this.categoryService.updateById(String(id), req.body);
+      const data = await this.bookmarkService.updateById(String(id), req.body);
       if (!data) {
         return this.sendNotFoundResponse(
           res,
-          "Category not found or failed to update!"
+          "bookmark not found or failed to update!"
         );
       }
       return this.sendSuccessResponse(
@@ -61,14 +58,14 @@ export class CategoryController extends BaseController {
         "Update operation completed successfully!"
       );
     } catch (e) {
-      return this.handleError(res, e, "updateById", "CategoryController");
+      return this.handleError(res, e, "updateById", "BookmarkController");
     }
   };
 
   deleteById = async (req: Request, res: Response) => {
     try {
       const { id } = req.params;
-      const data = await this.categoryService.deleteById(id);
+      const data = await this.bookmarkService.deleteById(id);
 
       return this.sendSuccessResponse(
         res,
@@ -76,7 +73,7 @@ export class CategoryController extends BaseController {
         "Delete operation completed successfully!"
       );
     } catch (e) {
-      return this.handleError(res, e, "deleteById", "CategoryController");
+      return this.handleError(res, e, "deleteById", "BookmarkController");
     }
   };
 }

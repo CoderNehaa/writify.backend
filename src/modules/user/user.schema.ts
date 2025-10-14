@@ -5,6 +5,9 @@ import bcrypt from "bcrypt";
 
 const userSchema = new mongoose.Schema<IUser>(
   {
+    fullName: {
+      type: String,
+    },
     username: {
       type: String,
       required: true,

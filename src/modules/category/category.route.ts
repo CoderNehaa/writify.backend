@@ -8,6 +8,8 @@ const categoryRouter = Router();
 const { validateEndpoint, paramsIdValidator } = BaseValidator;
 const { newCategoryValidator, updateCategoryValidator } = CategoryValidator;
 
+categoryRouter.get("/all", validateEndpoint(), categoryController.getAll);
+
 categoryRouter.use(authMiddleware.authentic);
 
 categoryRouter.post(
@@ -16,7 +18,6 @@ categoryRouter.post(
   categoryController.create
 );
 
-categoryRouter.get("/all", validateEndpoint(), categoryController.getAll);
 categoryRouter.get(
   "/data/:id",
   validateEndpoint(paramsIdValidator),

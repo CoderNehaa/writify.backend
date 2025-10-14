@@ -62,4 +62,11 @@ export abstract class BaseService<T extends Document> {
         );
     return data;
   }
+
+  async updateAndUpsert(query: Object, updateBody: Partial<T>) {
+    await this.model.findOneAndUpdate(query, updateBody, {
+      new: true,
+      upsert: true,
+    });
+  }
 }

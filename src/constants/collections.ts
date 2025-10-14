@@ -3,4 +3,5 @@ export const COLLECTION_NAMES = {
   OTP:"otps",
   ARTICLE: "articles",
   CATEGORY: "categorys",
+  BOOKMARK: "bookmarks",
 };

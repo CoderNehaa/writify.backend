@@ -1,8 +1,9 @@
 import express, { Application, Router } from "express";
 import mongoose from "mongoose";
-import { DB_CONNECTION_URL } from "./config/environment";
+import { CORS_ORIGIN, DB_CONNECTION_URL } from "./config/environment";
 import cookieParser from "cookie-parser";
 import GlobalErrorHandler from "./middlewares/errorHandler.middleware";
+import cors from "cors";
 
 interface RouteDefinition {
   path: string;
@@ -38,6 +39,12 @@ class App {
   }
 
   initializeMiddlewares() {
+    this.express.use(
+      cors({
+        origin: CORS_ORIGIN,
+        credentials: true,
+      })
+    );
     this.express.use(express.json());
     this.express.use(express.urlencoded({ extended: true }));
     this.express.use(cookieParser());

@@ -9,6 +9,8 @@ import { CategoryController } from "./category/category.controller";
 import { CategoryService } from "./category/category.service";
 import { ArticleController } from "./article/article.controller";
 import { ArticleService } from "./article/article.service";
+import { BookmarkController } from "./bookmark/bookmark.controller";
+import { BookmarkService } from "./bookmark/bookmark.service";
 
 // Services
 const userService = new UserService();
@@ -17,6 +19,7 @@ const emailService = new EmailService();
 const tokenService = new TokenService();
 const categoryService = new CategoryService();
 const articleService = new ArticleService();
+const bookmarkService = new BookmarkService();
 
 // Middlewares
 export const authMiddleware = new AuthMiddleware(userService, tokenService);
@@ -31,3 +34,4 @@ export const authController = new AuthController(
 export const userController = new UserController(userService);
 export const categoryController = new CategoryController(categoryService);
 export const articleController = new ArticleController(articleService);
+export const bookmarkController = new BookmarkController(bookmarkService);

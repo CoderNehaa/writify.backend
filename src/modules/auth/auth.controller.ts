@@ -174,7 +174,7 @@ export class AuthController extends BaseController {
 
   async checkUsername(req: Request, res: Response) {
     const { username } = req.body;
-    let exists = await this.userService.getOne({ username });
+    let exists = await this.userService.getOne({ username, isVerified: true });
     return this.sendSuccessResponse<{ usernameAvailable: boolean }>(res, {
       usernameAvailable: exists ? false : true,
     });

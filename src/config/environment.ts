@@ -11,3 +11,4 @@ export const REFRESH_TOKEN_SECRET_KEY =
 export const EMAIL_SENDER_MAIL = process.env.EMAIL_SENDER_MAIL || "";
 export const EMAIL_SENDER_NAME = process.env.EMAIL_SENDER_NAME || "";
 export const EMAIL_SENDER_PASSWORD = process.env.EMAIL_SENDER_PASSWORD;
+export const CORS_ORIGIN = process.env.CORS_ORIGIN || "*";
