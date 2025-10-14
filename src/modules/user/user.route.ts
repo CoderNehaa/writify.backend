@@ -2,6 +2,7 @@ import { Router } from "express";
 import { authMiddleware, userController } from "../container";
 import { BaseValidator } from "../base/base.validator";
 import { UserValidator } from "./user.validator";
+import multer from "multer";
 
 const userRouter = Router();
 const { validateEndpoint } = BaseValidator;
@@ -14,6 +15,7 @@ userRouter.get("/data/:userId", validateEndpoint(), userController.getById);
 
 userRouter.put(
   "/",
+  multer().any(),
   validateEndpoint(updateUserValidator),
   userController.updateUser
 );

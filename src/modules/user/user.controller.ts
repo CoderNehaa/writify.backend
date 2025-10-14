@@ -1,13 +1,17 @@
 import { Request, Response } from "express";
 import { BaseController } from "../base/base.controller";
 import { UserService } from "./user.service";
+import { S3Service } from "../../clients/s3.service";
+import { IUser } from "./user.type";
 
 export class UserController extends BaseController {
   private userService: UserService;
+  private s3Service: S3Service;
 
-  constructor(service: UserService) {
+  constructor(service: UserService, s3Service: S3Service) {
     super();
     this.userService = service;
+    this.s3Service = s3Service;
   }
 
   getLoggedInUser = (req: Request, res: Response) => {
@@ -31,9 +35,18 @@ export class UserController extends BaseController {
   updateUser = async (req: Request, res: Response) => {
     try {
       const userId = req.user._id;
+      const updateBody: Partial<IUser> = req.body;
+
+      if (req.files && Array.isArray(req.files) && req.files.length > 0) {
+        const result = await this.s3Service.convertImageToUrl(
+          req.files[0],
+          "user"
+        );
+        updateBody.profilePicture = result;
+      }
       const updatedUser = await this.userService.updateById(
         String(userId),
-        req.body
+        updateBody
       );
       return this.sendSuccessResponse(
         res,

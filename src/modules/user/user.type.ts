@@ -15,4 +15,5 @@ export interface IUser extends Document {
   password?: string; //to prevent sending password in user object
   comparePassword(password: string): Promise<boolean>;
   isDeleted: boolean;
+  profilePicture?: string;
 }

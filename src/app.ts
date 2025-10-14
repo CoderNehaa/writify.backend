@@ -4,6 +4,7 @@ import { CORS_ORIGIN, DB_CONNECTION_URL } from "./config/environment";
 import cookieParser from "cookie-parser";
 import GlobalErrorHandler from "./middlewares/errorHandler.middleware";
 import cors from "cors";
+import multer from "multer";
 
 interface RouteDefinition {
   path: string;
@@ -45,6 +46,8 @@ class App {
         credentials: true,
       })
     );
+
+    // this.express.use(multer().any()); //TODO: will use later
     this.express.use(express.json());
     this.express.use(express.urlencoded({ extended: true }));
     this.express.use(cookieParser());

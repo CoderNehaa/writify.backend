@@ -39,6 +39,9 @@ const userSchema = new mongoose.Schema<IUser>(
       default: false,
       select: false, // Hide in queries by default
     },
+    profilePicture: {
+      type: String,
+    },
   },
   {
     timestamps: true,

@@ -11,6 +11,7 @@ import { ArticleController } from "./article/article.controller";
 import { ArticleService } from "./article/article.service";
 import { BookmarkController } from "./bookmark/bookmark.controller";
 import { BookmarkService } from "./bookmark/bookmark.service";
+import { S3Service } from "../clients/s3.service";
 
 // Services
 const userService = new UserService();
@@ -20,6 +21,7 @@ const tokenService = new TokenService();
 const categoryService = new CategoryService();
 const articleService = new ArticleService();
 const bookmarkService = new BookmarkService();
+const s3Service = new S3Service();
 
 // Middlewares
 export const authMiddleware = new AuthMiddleware(userService, tokenService);
@@ -31,7 +33,7 @@ export const authController = new AuthController(
   emailService,
   tokenService
 );
-export const userController = new UserController(userService);
+export const userController = new UserController(userService, s3Service);
 export const categoryController = new CategoryController(categoryService);
 export const articleController = new ArticleController(articleService);
 export const bookmarkController = new BookmarkController(bookmarkService);
