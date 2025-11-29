@@ -23,6 +23,7 @@ export class TokenService {
     // Save access and refresh token in cookies
     res.cookie(ACCESS_TOKEN_NAME, accessToken);
     res.cookie(REFRESH_TOKEN_NAME, refreshToken);
+    return { accessToken, refreshToken };
   };
 
   validateToken = async (
@@ -32,8 +33,12 @@ export class TokenService {
   ) => {
     try {
       if (accessToken) {
-        return jwt.verify(accessToken, ACCESS_TOKEN_SECRET_KEY) as {
-          id: string;
+        return {
+          decoded: jwt.verify(accessToken, ACCESS_TOKEN_SECRET_KEY) as {
+            id: string;
+          },
+          accessToken,
+          refreshToken,
         };
       }
     } catch (err: any) {
@@ -47,8 +52,10 @@ export class TokenService {
         };
 
         if (decoded.id) {
-          this.generateAndSaveAuthTokens(res, decoded.id);
-          return decoded;
+          const tokens = await this.generateAndSaveAuthTokens(res, decoded.id);
+          refreshToken = tokens.refreshToken;
+          accessToken = tokens.accessToken;
+          return { decoded, accessToken, refreshToken };
         }
       }
     } catch (err: any) {

@@ -1,8 +1,17 @@
-import express, { Application, Router } from "express";
+import express, {
+  Application,
+  NextFunction,
+  Request,
+  Response,
+  Router,
+} from "express";
 import mongoose from "mongoose";
-import { DB_CONNECTION_URL } from "./config/environment";
+import { CORS_ORIGIN, DB_CONNECTION_URL } from "./config/environment";
 import cookieParser from "cookie-parser";
 import GlobalErrorHandler from "./middlewares/errorHandler.middleware";
+import logger from "./utils/logger";
+import cors from "cors";
+import multer from "multer";
 
 interface RouteDefinition {
   path: string;
@@ -38,9 +47,23 @@ class App {
   }
 
   initializeMiddlewares() {
+    this.express.use(
+      cors({
+        origin: CORS_ORIGIN,
+        credentials: true,
+      })
+    );
+    this.express.use(multer().any());
     this.express.use(express.json());
-    this.express.use(express.urlencoded({ extended: true }));
     this.express.use(cookieParser());
+    this.express.use(express.urlencoded({ extended: true }));
+    // Middleware to log all requests
+    this.express.use((req: Request, res: Response, next: NextFunction) => {
+      res.on("finish", () => {
+        logger.info(`${req.method} ${req.url} ${res.statusCode}`);
+      });
+      next();
+    });
   }
 
   initializeRoutes(routes: RouteDefinition[]) {

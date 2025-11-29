@@ -13,10 +13,21 @@ export abstract class BaseService<T extends Document> {
     return newItem;
   }
 
-  async getOne(property: Object, session?: ClientSession): Promise<T | null> {
+  async getOne(
+    property: Object,
+    session?: ClientSession,
+    includeDeleted: boolean = false
+  ): Promise<T | null> {
+    const query: any = { ...property };
+
+    // Apply isDeleted only if schema contains this field
+    if (this.model.schema.path("isDeleted")) {
+      query["isDeleted"] = includeDeleted;
+    }
+
     const result = session
-      ? await this.model.findOne(property).session(session)
-      : await this.model.findOne(property);
+      ? await this.model.findOne(query).session(session)
+      : await this.model.findOne(query);
     return result;
   }
 
@@ -40,6 +51,7 @@ export abstract class BaseService<T extends Document> {
       : await this.model.findOneAndUpdate({ _id: id }, updateBody, {
           new: true,
         });
+    console.log("data", data);
     return data;
   }
 

@@ -5,6 +5,10 @@ import bcrypt from "bcrypt";
 
 const userSchema = new mongoose.Schema<IUser>(
   {
+    fullName: {
+      type: String,
+      required: true,
+    },
     username: {
       type: String,
       required: true,
@@ -21,6 +25,10 @@ const userSchema = new mongoose.Schema<IUser>(
       type: String,
       required: true,
     },
+    bio: {
+      type: String,
+      required: false,
+    },
     role: {
       type: String,
       enum: EUserRoles,
@@ -34,7 +42,7 @@ const userSchema = new mongoose.Schema<IUser>(
     isDeleted: {
       type: Boolean,
       default: false,
-      select: false, // Hide in queries by default
+      select: false, // TODO:Hide in queries by default
     },
   },
   {

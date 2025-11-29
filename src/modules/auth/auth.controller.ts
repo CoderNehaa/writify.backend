@@ -47,12 +47,16 @@ export class AuthController extends BaseController {
         return this.sendBadRequestResponse(res, "Invalid Credentials");
       }
 
-      this.tokenService.generateAndSaveAuthTokens(res, String(user._id));
-      return this.sendSuccessResponse<IUser>(
-        res,
-        user,
-        "Logged in successfully!"
-      );
+      const { accessToken, refreshToken } =
+        await this.tokenService.generateAndSaveAuthTokens(
+          res,
+          String(user._id)
+        );
+      return this.sendSuccessResponse<{
+        user: IUser;
+        accessToken: string;
+        refreshToken: string;
+      }>(res, { user, accessToken, refreshToken }, "Logged in successfully!");
     } catch (e) {
       return this.handleError(res, e, "login", "AuthController");
     }
@@ -60,7 +64,7 @@ export class AuthController extends BaseController {
 
   async signup(req: Request, res: Response) {
     try {
-      const { username, email, password } = req.body;
+      const { username, email, password, fullName } = req.body;
       const existingUser = await this.userService.getOne({ email });
       if (existingUser && existingUser.isVerified) {
         return this.sendBadRequestResponse(res, "Email already exists");
@@ -68,7 +72,7 @@ export class AuthController extends BaseController {
 
       const user =
         existingUser ||
-        (await this.userService.create({ username, email, password }));
+        (await this.userService.create({ username, email, password, fullName }));
       const otp = await this.otpService.generateAndSaveOTP(email);
 
       this.emailService.sendMail(

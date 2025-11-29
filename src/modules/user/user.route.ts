@@ -2,6 +2,7 @@ import { Router } from "express";
 import { authMiddleware, userController } from "../container";
 import { BaseValidator } from "../base/base.validator";
 import { UserValidator } from "./user.validator";
+import upload from "../../clients/multer.service";
 
 const userRouter = Router();
 const { validateEndpoint } = BaseValidator;

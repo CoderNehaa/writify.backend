@@ -20,6 +20,7 @@ export class AuthValidator {
         .max(PASSWORD_LENGTH.MAX)
         .pattern(passwordRegex)
         .required(),
+      fullName: joi.string(),
     }),
   };
 

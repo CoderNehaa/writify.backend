@@ -21,7 +21,11 @@ export class UserValidator {
             "string.min": `Username must be at least ${USERNAME_LENGTH.MAX} characters`,
             "string.max": `Username must be less than or equal to ${USERNAME_LENGTH.MAX} characters`,
           }),
-        role: joi.string().allow(...Object.values(EUserRoles)),
+        role: joi
+          .string()
+          .allow(...Object.values(EUserRoles))
+          .default(EUserRoles.USER),
+        bio: joi.string().max(50),
       })
       .min(1),
   };

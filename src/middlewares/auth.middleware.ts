@@ -33,17 +33,17 @@ export class AuthMiddleware {
     }
 
     // Validate tokens
-    const decoded = await this.tokenService.validateToken(
+    const data = await this.tokenService.validateToken(
       accessToken,
       refreshToken,
       res
     );
-    if (!decoded || !decoded.id) {
+    if (!data || !data.decoded || !data.decoded.id) {
       return this.sendUnauthorized(res);
     }
 
     // Check if user exists in DB
-    let user = await this.userService.getById(decoded.id);
+    let user = await this.userService.getById(data.decoded.id);
     if (!user) {
       return this.sendUnauthorized(res);
     }
