@@ -38,7 +38,6 @@ export class UserController extends BaseController {
 
       const newProfilePic =
         Array.isArray(req.files) && req.files.length > 0 ? req.files[0] : null;
-
       if (newProfilePic) {
         const contentType = newProfilePic.mimetype;
         const key = `user/${Date.now().toString()}_${
@@ -54,8 +53,6 @@ export class UserController extends BaseController {
           userData = { ...req.body, avatar: newProfilePicUrl };
         }
       }
-
-      console.log("userData:", userData);
 
       const updatedUser = await this.userService.updateById(
         String(userId),

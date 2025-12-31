@@ -9,6 +9,7 @@ export interface IUser extends Document {
   _id: String | ObjectId;
   email: string;
   fullName: string;
+  avatar: string;
   username: string;
   role: EUserRoles;
   isVerified: boolean;

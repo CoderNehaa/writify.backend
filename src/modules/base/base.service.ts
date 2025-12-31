@@ -51,7 +51,6 @@ export abstract class BaseService<T extends Document> {
       : await this.model.findOneAndUpdate({ _id: id }, updateBody, {
           new: true,
         });
-    console.log("data", data);
     return data;
   }
 
